@@ -9,6 +9,9 @@ from app.controllers import produto_controller
 from app.auth import get_usuario_opcional
 import os
 
+app.include_router(auth_controller.router)
+app.include_router(admin_controller.router)
+
 app = FastAPI()
 
 # Descobre o caminho real da pasta onde este arquivo main.py está (pasta /app)
