@@ -1,6 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse, RedirectResponse
+from app.controllers import auth_controller
+from app.controllers import admin_controller
+from app.controllers import categoria_controller
+from app.controllers import produto_controller
+from app.auth import get_usuario_opcional
 import os
 
 app = FastAPI()
