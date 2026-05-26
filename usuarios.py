@@ -9,6 +9,7 @@ usuarios = [
         "senha": "admin@1234",
         "role": "admin",
     },
+    # Atualizado
     {
         "nome": "Kaylan",
         "email": "kaylan@admin.com",
