@@ -264,4 +264,210 @@ body {
         max-width: 400px;
     }
 }
-/* pagina 1 login */
+/* pagina 1 login
+Aqui está o arquivo CSS completo e unificado para a sua página de Cadastro baseado nas regras do seu arquivo de Login (style.css).
+
+Para manter a harmonia visual, o novo botão "Logar" (que adicionamos na tela de cadastro) foi estilizado como um botão secundário elegante: ele segue o mesmo tamanho e arredondamento do botão principal, mas possui fundo transparente com borda dourada, combinando perfeitamente com a identidade visual da sua aplicação.
+
+Substitua o conteúdo do seu arquivo /static/CSS/base.css por este:
+
+Código CSS para a Tela de Cadastro (base.css)
+CSS
+/* ==========================================================================
+   RESET E CONFIGURAÇÃO BASE
+   ========================================================================== */
+*   
+   {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: url('/assets/fundo-abstrato.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 40px 40px; 
+}
+
+/* Container principal idêntico ao de login */
+.container-cadastro {
+    width: 100%;
+    max-width: 1400px; 
+    display: flex;
+    justify-content: center; /* Centraliza o card na tela */
+    align-items: center;
+}
+
+/* ==========================================================================
+   CARD DE CADASTRO (Idêntico ao .login-card)
+   ========================================================================== */
+.card-cadastro {
+    background: rgba(18, 18, 18, 0.92);
+    border: 2px solid #b89742; 
+    border-radius: 25px;
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 460px; /* Mantém a mesma largura do formulário de login */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+/* Logo centralizada acima do formulário */
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container .logo {
+    width: 180px;
+    height: auto;
+}
+
+/* Títulos do Card */
+.card-cadastro h2 {
+    color: #ffd700;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.card-cadastro .subtitulo {
+    text-align: center;
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-bottom: 35px;
+}
+
+/* ==========================================================================
+   INPUTS MODERNOS (Estilo flutuante idêntico ao de login)
+   ========================================================================== */
+.grupo-input {
+    position: relative;
+    margin-bottom: 35px;
+    display: flex;
+    flex-direction: column-reverse; /* Permite o efeito do label flutuante */
+}
+
+.grupo-input input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    color: #fff;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #777;
+    outline: none;
+    transition: 0.3s;
+}
+
+.grupo-input label {
+    font-size: 1.1rem;
+    color: #aaa;
+    pointer-events: none;
+    transition: 0.3s;
+    transform: translateY(32px); /* Posiciona o label em cima do input inicialmente */
+}
+
+/* Efeito de flutuar o label ao focar ou digitar */
+.grupo-input input:focus ~ label,
+.grupo-input input:valid ~ label {
+    transform: translateY(0px);
+    font-size: 0.85rem;
+    color: #ffd700;
+}
+
+.grupo-input input:focus {
+    border-bottom: 1px solid #ffd700;
+}
+
+/* ==========================================================================
+   BOTÕES (Principal e Secundário)
+   ========================================================================== */
+
+/* Botão Cadastrar (Principal - idêntico ao .btn-entrar) */
+.btn-cadastrar {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to bottom, #d49339, #b06b24);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: 0.2s;
+    display: block;
+    text-align: center;
+}
+
+.btn-cadastrar:hover {
+    transform: scale(1.02);
+    background: linear-gradient(to bottom, #e3a246, #c27a2f);
+}
+
+/* Botão Logar (Secundário - Estilo elegante vazado) */
+.btn-logar {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    text-align: center;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-decoration: none;
+    margin-top: 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: transparent;
+    color: #ffd700;
+    border: 2px solid #b89742;
+    transition: all 0.3s;
+}
+
+.btn-logar:hover {
+    transform: scale(1.02);
+    background: linear-gradient(to bottom, #d49339, #b06b24);
+    color: white;
+    border-color: transparent;
+}
+
+/* Rodapé do Card */
+.rodape-card {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.rodape-card a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.rodape-card a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE COMPLETA
+   ========================================================================== */
+@media (max-width: 850px) {
+    body {
+        align-items: flex-start;
+        padding: 20px 20px;
+    }
+
+    .card-cadastro {
+        padding: 40px 25px;
+        max-width: 400px;
+    }
+}

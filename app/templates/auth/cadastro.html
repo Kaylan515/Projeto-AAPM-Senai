@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - AAPM Senai</title>
+    <link rel="stylesheet" href="/static/CSS/style.css">
+</head>
+<body>
+    <div class="container-cadastro">
+        <div class="card-cadastro">
+            <div class="logo-container">
+                <img src="/assets/Logo AAPM.svg" alt="Logo AAPM" class="logo">
+            </div>
+            
+            <h2>Criar Conta</h2>
+            <p class="subtitulo">Preencha os dados abaixo para se cadastrar</p>
+<form id="formCadastro">
+    <div class="grupo-input">
+        <input type="text" id="nome" name="nome" placeholder=" " required>
+        <label for="nome">Nome Completo</label>
+    </div>
+
+    <div class="grupo-input">
+        <input type="email" id="email" name="email" placeholder=" " required>
+        <label for="email">E-mail Acadêmico / Profissional</label>
+    </div>
+
+    <div class="grupo-input">
+        <input type="password" id="senha" name="senha" placeholder=" " required>
+        <label for="senha">Senha</label>
+    </div>
+
+    <div class="grupo-input">
+        <input type="password" id="confirmarSenha" placeholder=" " required>
+        <label for="confirmarSenha">Confirmar Senha</label>
+    </div>
+
+    <button type="submit" class="btn-cadastrar">Cadastrar</button>
+    <a href="/login" class="btn-logar">Logar</a>
+</form>
+            <div class="rodape-card">
+                <span>Já tem uma conta? <a href="/login">Faça login</a></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
