@@ -1,64 +1,62 @@
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse
 from app.controllers import auth_controller
 from app.controllers import admin_controller
-from app.controllers import categoria_controller
-from app.controllers import produto_controller
-from app.auth import get_usuario_opcional
 import os
-
 
 app = FastAPI()
 
+# 🟢 Inclui apenas os routers dos controllers que você possui na pasta
 app.include_router(auth_controller.router)
 app.include_router(admin_controller.router)
 
 # Descobre o caminho real da pasta onde este arquivo main.py está (pasta /app)
+# 1. Configura a pasta dos arquivos estáticos (CSS e JS)
+# Descobre o caminho real da pasta onde este arquivo main.py está (pasta /app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 1. Configura a pasta dos arquivos estáticos (CSS e JS) que ficam dentro de app/templates/static
-# Como "templates" está no mesmo nível que "main.py", usamos o BASE_DIR
-static_dir = os.path.join(BASE_DIR, "templates", "static")
+# 🛠️ CORREÇÃO DA LINHA DO STATIC: Apontando direto para onde sua pasta CSS está!
+static_dir = os.path.join(BASE_DIR, "templates")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-# 2. Configura a pasta de assets (Imagens, Logos e Fundo) que fica fora da pasta app
-# Usamos o os.path.dirname(BASE_DIR) para subir um nível (para a raiz do projeto) e achar a pasta "assets"
+# 2. Configura a pasta de assets (Imagens, Logos e Fundo) fora da pasta app
 assets_dir = os.path.join(os.path.dirname(BASE_DIR), "assets")
 app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+# 3. Configura o Jinja2 para ler os arquivos HTML corretamente
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 
 # --- ROTAS DA APLICAÇÃO ---
 
-# Rota para a Página Inicial (index.html)
+
+# --- ROTAS DA APLICAÇÃO (USANDO JINJA2 CORRETAMENTE) ---
+
+# Página Inicial (index.html)
 @app.get("/", response_class=HTMLResponse)
-def read_index():
-    # Caminho do seu arquivo index.html
-    index_path = os.path.join(BASE_DIR, "templates", "index.html")
-    with open(index_path, "r", encoding="utf-8") as f:
-        return f.read()
+def read_index(request: Request):
+    context = {"request": request}
+    return templates.TemplateResponse(request=request, name="index.html", context=context)
 
 
-# Rota para a Página de Login (login.html)
+# Página de Login (login.html)
 @app.get("/login", response_class=HTMLResponse)
-def read_login():
-    # Caminho do seu arquivo login.html dentro da pasta auth
-    login_path = os.path.join(BASE_DIR, "templates", "auth", "login.html")
-    with open(login_path, "r", encoding="utf-8") as f:
-        return f.read()
+def read_login(request: Request):
+    context = {"request": request}
+    return templates.TemplateResponse(request=request, name="auth/login.html", context=context)
 
 
-# Rota para a Página de Cadastro (cadastro.html)
+# Página de Cadastro (cadastro.html)
 @app.get("/cadastro", response_class=HTMLResponse)
-def read_cadastro():
-    # Caminho do seu arquivo cadastro.html dentro da pasta auth
-    cadastro_path = os.path.join(BASE_DIR, "templates", "auth", "cadastro.html")
-    with open(cadastro_path, "r", encoding="utf-8") as f:
-        return f.read()
+def read_cadastro(request: Request):
+    context = {"request": request}
+    return templates.TemplateResponse(request=request, name="auth/cadastro.html", context=context)
 
 
-# Permite rodar o projeto diretamente com o comando "python main.py"
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+# Painel Administrativo (dashboard.html)
+@app.get("/dashboard", response_class=HTMLResponse)
+def read_dashboard(request: Request):
+    context = {"request": request}
+    return templates.TemplateResponse(request=request, name="dashboard.html", context=context)

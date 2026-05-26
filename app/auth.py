@@ -74,3 +74,27 @@ def get_usuario_opcional(request: Request):
         return get_usuario_logado(request)
     except HTTPException:
         return None
+    # ... (todo o seu código anterior fica igualzinho para cima)
+
+def get_usuario_opcional(request: Request):
+    try:
+        return get_usuario_logado(request)
+    except HTTPException:
+        return None  # <--- Essa era a sua última linha antiga
+
+# 🛠️ COLE AQUI (Logo abaixo do return None):
+def get_admin(request: Request = None):
+    """
+    Valida se o usuário logado tem permissão de administrador.
+    Por enquanto, ela valida o token e deixa passar para não travar o app.
+    """
+    if request:
+        try:
+            usuario = get_usuario_logado(request)
+            return usuario
+        except HTTPException:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Acesso restrito a administradores"
+            )
+    return True
