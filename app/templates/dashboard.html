@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - AAPM</title>
+    <style>
+        /* --- RESET E FONTES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #0b0205;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* --- NOVO FUNDO CONFIGURADO --- */
+        .background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: url('/assets/fundo-abstrato.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .wave-overlay {
+            display: none;
+        }
+
+        /* --- BARRA SUPERIOR REFEITA PARA A LOGO --- */
+        header {
+            background-color: #2c2c2c;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 0 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border-bottom: 3px solid #a58d4c;
+            z-index: 10;
+        }
+
+        .logo-container {
+            height: 170px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* --- CONTAINER DO AVATAR COM MENU SUSPENSO --- */
+        .avatar-container {
+            position: absolute;
+            right: 35px;
+            width: 48px;
+            height: 49px;
+            border-radius: 50%;
+            border: 2px solid #d39b21;
+            cursor: pointer;
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: 50%;
+        }
+
+        /* --- NOVO MENU DROPDOWN (APARECE NO HOVER) --- */
+        .user-dropdown {
+            position: absolute;
+            top: 55px;
+            right: 0;
+            width: 220px;
+            background-color: #140409; 
+            border: 1px solid #d39b21;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .avatar-container:hover .user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            display: flex;
+            flex-direction: column;
+            color: #ffffff;
+            font-size: 13px;
+        }
+        
+        .dropdown-header span {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+        }
+
+        .user-dropdown hr {
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            margin: 4px 0;
+        }
+
+        .dropdown-item {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 10px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(211, 155, 33, 0.2);
+            color: #e4be6b;
+        }
+
+        .dropdown-item.logout {
+            color: #ff4d6d;
+        }
+
+        .dropdown-item.logout:hover {
+            background-color: rgba(255, 77, 109, 0.15);
+            color: #ff4d6d;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        .wrapper {
+            flex: 1;
+            padding: 25px 50px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb span {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+        }
+
+        .title-container {
+            width: 100%;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .title-main .painel {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-weight: 700;
+            font-style: italic;
+            font-size: 26px;
+        }
+
+        .title-main .adm {
+            color: #cfb065;
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 26px;
+            margin-left: 5px;
+        }
+
+        /* --- CARD CENTRAL --- */
+        .center-stage {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+
+        .main-card {
+            width: 820px;
+            height: 440px;
+            background-color: #080506;
+            border-radius: 28px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85);
+        }
+
+        .card-left {
+            flex: 1;
+            position: relative;
+            background-image: url("/assets/Site%20-%20AAPM%20(4).pdf%20(2).svg");
+            background-repeat: no-repeat;
+            background-size: 75% auto;
+            background-position: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-left::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(219, 36, 76, 0.3), transparent 70%);
+        }
+
+        .card-right {
+            flex: 1;
+            background: radial-gradient(circle at bottom right, #20070e 0%, #080506 80%);
+            padding: 45px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-right h2 {
+            font-size: 30px;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 25px;
+        }
+
+        .card-right h3 {
+            font-size: 22px;
+            color: #cfb065;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .card-right p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- BOTÃO ORIGINAL SAIR (FECHADO) --- */
+        .btn-sair-fundo {
+            position: absolute;
+            bottom: 70px;
+            left: 20px;
+            color: #000000;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* --- ABA INFERIOR DO DASHBOARD (GATILHO) --- */
+        .dashboard-trigger {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 48px;
+            background: linear-gradient(to bottom, #444, #333);
+            border-top-right-radius: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            gap: 12px;
+            cursor: pointer;
+            z-index: 99;
+        }
+
+        .icon-dashboard {
+            width: 22px;
+            height: 22px;
+            stroke: #746e61;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .dashboard-trigger span {
+            color: #e4be6b;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* --- MENU COMPLETO QUE SOBE ATÉ O TOPO --- */
+        .sidebar-menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 215px;
+            height: calc(100vh - 65px);
+            background-color: #313131;
+            border-top-right-radius: 45px;
+            border-bottom-right-radius: 45px;
+            padding: 35px 20px 30px 22px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.7);
+            border-right: 3px solid #000000;
+            transform: translateY(105%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .sidebar-menu.active {
+            transform: translateY(0);
+        }
+
+        .menu-title {
+            color: #8c7657;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+        }
+
+        .menu-items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .menu-item {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1.2;
+            transition: color 0.2s;
+        }
+
+        .menu-item:hover {
+            color: #e4be6b;
+        }
+
+        .menu-item.highlight {
+            color: #dbb368;
+        }
+
+        .menu-item.sair {
+            color: #000000;
+            font-size: 18px;
+            margin-top: auto;
+            padding-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-canvas"></div>
+    <div class="wave-overlay"></div>
+
+    <header>
+        <div class="logo-container">
+            <img src="/assets/Logo AAPM.svg" alt="Logo AAPM">
+        </div>
+        <div class="avatar-container">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80" alt="Profile">
+            
+            <div class="user-dropdown">
+                <div class="dropdown-header">
+                    <strong>Nome do Usuário</strong>
+                    <span>admin@aapm.com</span>
+                </div>
+                <hr>
+                <a href="#" class="dropdown-item">Visualizar Conta</a>
+                <a href="#" class="dropdown-item logout">Deslogar</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="breadcrumb">Inicio &gt; <span>Painel administrativo</span></div>
+        
+        <div class="title-container">
+            <h1 class="title-main"><span class="painel">PAINEL</span> <span class="adm">ADMINISTRATIVO</span></h1>
+        </div>
+
+        <div class="center-stage">
+            <div class="main-card">
+                <div class="card-left"></div>
+                <div class="card-right">
+                    <h2>INOVAÇÃO<br>TECNOLÓGICA</h2>
+                    <h3>Senai-SP</h3>
+                    <p>Instagram: @senaitextilemoda</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="btn-sair-fundo">Sair</a>
+
+        <div class="sidebar-menu" id="sidebarMenu">
+            <div class="menu-title">DASHBOARD</div>
+            
+            <div class="menu-items-container">
+                <div class="menu-item" onclick="closeMenu()">Visão Geral</div>
+                <div class="menu-item" onclick="closeMenu()">Minha loja</div>
+                <div class="menu-item" onclick="closeMenu()">Produtos e estoque</div>
+                <div class="menu-item highlight" onclick="closeMenu()">Adicionar produtos</div>
+                <div class="menu-item" onclick="closeMenu()">Atualizar produtos</div>
+                <div class="menu-item" onclick="closeMenu()">Remover Produtos</div>
+                <div class="menu-item" onclick="closeMenu()">Receitas</div>
+                <div class="menu-item" onclick="closeMenu()">Fornecedores</div>
+                <div class="menu-item" onclick="closeMenu()">Vendas</div>
+            </div>
+            
+            <div class="menu-item sair" onclick="closeMenu()">Sair</div>
+        </div>
+
+        <div class="dashboard-trigger" id="dashboardBtn">
+            <svg class="icon-dashboard" viewBox="0 0 24 24">
+                <rect x="2" y="4" width="20" height="16" rx="2" stroke-width="2"/>
+                <line x1="2" y1="8" x2="22" y2="8" stroke-width="2"/>
+                <circle cx="10" cy="14" r="3" />
+                <line x1="12.5" y1="16.5" x2="16" y2="20" stroke-width="2"/>
+            </svg>
+            <span>Dashboard</span>
+        </div>
+    </div>
+
+    <script>
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        const sidebarMenu = document.getElementById('sidebarMenu');
+
+        // Abre ou fecha o menu ao clicar no botão "Dashboard"
+        dashboardBtn.addEventListener('click', (e) => {
+            sidebarMenu.classList.toggle('active');
+            e.stopPropagation();
+        });
+
+        // Função para fechar ao clicar em um item
+        function closeMenu() {
+            sidebarMenu.classList.remove('active');
+        }
+
+        // Fecha se o usuário clicar em qualquer outro lugar fora do menu
+        document.addEventListener('click', (e) => {
+            if (!sidebarMenu.contains(e.target) && e.target !== dashboardBtn) {
+                sidebarMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

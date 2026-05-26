@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrativo - AAPM</title>
+    <style>
+        /* --- RESET E FONTES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #0b0205;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- FUNDO PADRÃO --- */
+        .background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: url('../../assets/fundo-abstrato.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: rgba(11, 2, 5, 0.65);
+        }
+
+        /* --- CARD DE LOGIN CENTRAL --- */
+        .login-card {
+            width: 420px;
+            background: radial-gradient(circle at bottom right, #20070e 0%, #080506 80%);
+            border-radius: 24px;
+            padding: 40px 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(211, 155, 33, 0.2);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .logo-container {
+            height: 100px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .login-card h2 {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-size: 22px;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .login-card p {
+            color: #cfb065;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        /* --- FORMULÁRIO --- */
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(211, 155, 33, 0.3);
+            border-radius: 10px;
+            padding: 0 15px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #d39b21;
+            background-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 10px rgba(211, 155, 33, 0.2);
+        }
+
+        /* --- BOTÃO DE ENTRAR --- */
+        .btn-entrar {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(135deg, #d39b21 0%, #a67616 100%);
+            color: #080506;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-entrar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(211, 155, 33, 0.3);
+            background: linear-gradient(135deg, #e4be6b 0%, #d39b21 100%);
+        }
+
+        .footer-nota {
+            margin-top: 25px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-canvas"></div>
+    <div class="background-overlay"></div>
+
+    <div class="login-card">
+        <div class="logo-container">
+            <img src="../../assets/Logo AAPM.svg" alt="Logo AAPM">
+        </div>
+        
+        <h2>CONEXÃO</h2>
+        <p>Painel Restrito</p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="usuario">E-mail do Administrador</label>
+                <input type="email" id="usuario" value="admin@aapm.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="senha">Senha de Acesso</label>
+                <input type="password" id="senha" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-entrar">Entrar no Sistema</button>
+        </form>
+
+        <div class="footer-nota">Acesso exclusivo para administradores autorizados.</div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Redireciona o Administrador para a página do painel
+            // Certifique-se de que o arquivo do seu painel se chama exatamente "painel.html"
+            window.location.href = "painel.html"; 
+        });
+    </script>
+</body>
+</html>
