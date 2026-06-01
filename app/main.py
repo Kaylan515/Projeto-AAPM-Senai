@@ -4,6 +4,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from app.controllers import auth_controller
 from app.controllers import admin_controller
+from app.controllers import movimentacao_controller
+from app.controllers import produto_controller
+from app.controllers import categoria__controller
 import os
 
 app = FastAPI()
@@ -11,6 +14,9 @@ app = FastAPI()
 # 🟢 Inclui apenas os routers dos controllers que você possui na pasta
 app.include_router(auth_controller.router)
 app.include_router(admin_controller.router)
+app.include_router(movimentacao_controller.router)
+app.include_router(produto_controller.router)
+app.include_router(categoria__controller.router)
 
 # Descobre o caminho real da pasta onde este arquivo main.py está (pasta /app)
 # 1. Configura a pasta dos arquivos estáticos (CSS e JS)
