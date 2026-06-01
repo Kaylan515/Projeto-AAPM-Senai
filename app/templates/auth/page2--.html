@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AAPM Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red-deep: #8B0000;
+    --red-mid: #C0392B;
+    --red-bright: #E74C3C;
+    --red-glow: #FF2D2D;
+    --dark-bg: #1a1a1a;
+    --sidebar-bg: #222222;
+    --header-bg: #2d2d2d;
+    --gold: #C9A84C;
+    --text-light: #f0f0f0;
+    --text-muted: #aaa;
+  }
+ 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--dark-bg);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+ 
+  /* ── HEADER ── */
+  header {
+    background: var(--header-bg);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 28px;
+    border-bottom: 2px solid var(--red-mid);
+    position: relative;
+    z-index: 10;
+  }
+ 
+  .header-text h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    color: var(--gold);
+    letter-spacing: 3px;
+    line-height: 1;
+  }
+ 
+  .header-text p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+ 
+  .logo {
+    margin-left: auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #C9A84C 0%, #8B5E0A 50%, #C9A84C 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #111;
+    box-shadow: 0 0 18px rgba(201,168,76,0.45);
+    border: 2px solid #C9A84C;
+  }
+ 
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+ 
+  /* ── SIDEBAR ── */
+  aside {
+    width: 170px;
+    min-width: 170px;
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0 20px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+ 
+  .sidebar-label {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--red-bright);
+    text-transform: uppercase;
+    padding: 0 22px 12px;
+  }
+ 
+  .nav-links {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 10px;
+  }
+ 
+  .nav-links a {
+    display: block;
+    padding: 10px 14px;
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s, padding-left 0.2s;
+    text-align: center;
+  }
+ 
+  .nav-links a:hover, .nav-links a.active {
+    background: rgba(192,57,43,0.25);
+    color: #fff;
+    padding-left: 20px;
+    border-left: 3px solid var(--red-bright);
+  }
+ 
+  .sidebar-bottom {
+    padding: 0 10px;
+  }
+ 
+  .sidebar-bottom a {
+    display: block;
+    padding: 10px 14px;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+  }
+ 
+  .sidebar-bottom a:hover {
+    background: rgba(255,255,255,0.07);
+    color: #fff;
+  }
+ 
+  /* ── MAIN CONTENT ── */
+  main {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+  }
+ 
+  /* ── ANIMATED CLOUD BACKGROUND ── */
+  .bg-canvas {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: linear-gradient(160deg, #6b0000 0%, #3a0000 40%, #1a0000 100%);
+  }
+ 
+  .cloud {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(55px);
+    opacity: 0.65;
+    animation: drift linear infinite;
+  }
+ 
+  .c1 { width: 420px; height: 320px; background: #b01020; top: -80px; left: 60px; animation-duration: 18s; animation-delay: 0s; }
+  .c2 { width: 340px; height: 260px; background: #8b0000; top: 200px; left: -60px; animation-duration: 22s; animation-delay: -6s; }
+  .c3 { width: 500px; height: 380px; background: #cc1520; top: 100px; left: 300px; animation-duration: 26s; animation-delay: -3s; }
+  .c4 { width: 280px; height: 220px; background: #6b0010; top: 360px; left: 500px; animation-duration: 20s; animation-delay: -9s; }
+  .c5 { width: 380px; height: 290px; background: #aa1010; top: -50px; left: 700px; animation-duration: 30s; animation-delay: -12s; }
+  .c6 { width: 240px; height: 200px; background: #d02030; top: 400px; left: 100px; animation-duration: 16s; animation-delay: -4s; }
+  .c7 { width: 310px; height: 240px; background: #7a0000; top: 250px; left: 900px; animation-duration: 24s; animation-delay: -8s; }
+ 
+  @keyframes drift {
+    0%   { transform: translateX(0) translateY(0) scale(1); }
+    33%  { transform: translateX(40px) translateY(-30px) scale(1.06); }
+    66%  { transform: translateX(-30px) translateY(20px) scale(0.96); }
+    100% { transform: translateX(0) translateY(0) scale(1); }
+  }
+ 
+  /* subtle pattern overlay */
+  .bg-canvas::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+ 
+  /* ── HERO CARD ── */
+  .content-area {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 40px;
+  }
+ 
+  .hero-card {
+    display: flex;
+    background: rgba(15,0,0,0.75);
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 540px;
+    width: 100%;
+    box-shadow: 0 8px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
+    backdrop-filter: blur(6px);
+    animation: cardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+ 
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+ 
+  .hero-image {
+    width: 220px;
+    min-width: 220px;
+    object-fit: cover;
+    display: block;
+  }
+ 
+  /* placeholder when no real image */
+  .hero-image-placeholder {
+    width: 220px;
+    min-width: 220px;
+    background: linear-gradient(135deg, #5a1010 0%, #2a0505 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.15);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+ 
+  .hero-info {
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(20,0,0,0.8) 0%, rgba(40,10,10,0.9) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  .hero-info::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='180' cy='180' r='120' fill='none' stroke='rgba(255,60,60,0.08)' stroke-width='1'/%3E%3Ccircle cx='180' cy='180' r='80' fill='none' stroke='rgba(255,60,60,0.06)' stroke-width='1'/%3E%3Ccircle cx='180' cy='180' r='40' fill='none' stroke='rgba(255,60,60,0.1)' stroke-width='1'/%3E%3C/svg%3E") bottom right no-repeat;
+  }
+ 
+  .hero-info h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.85rem;
+    line-height: 1.05;
+    letter-spacing: 2px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+ 
+  .hero-info .brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-light);
+    position: relative;
+    z-index: 1;
+  }
+ 
+  .hero-info .instagram {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 1;
+  }
+ 
+  /* ── FOOTER DASHBOARD BAR ── */
+  .footer-bar {
+    background: var(--sidebar-bg);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 10px 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+ 
+  .footer-bar svg {
+    width: 16px; height: 16px;
+    fill: var(--gold);
+  }
+</style>
+</head>
+<body>
+ 
+<!-- HEADER -->
+<header>
+  <div class="header-text">
+    <h1>BEM VINDO</h1>
+    <p>Conheça nossos serviços e catálogos</p>
+  </div>
+  <div class="logo">AAPM</div>
+</header>
+ 
+<!-- LAYOUT -->
+<div class="layout">
+ 
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-label">Dashboard</div>
+    <nav class="nav-links">
+      <a href="#" class="active">Catálogos</a>
+      <a href="#">Categorias</a>
+      <a href="#">Horários</a>
+      <a href="#">Serviços<br>disponíveis</a>
+      <a href="#">Dúvidas</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="#">Sair</a>
+    </div>
+  </aside>
+ 
+  <!-- MAIN -->
+  <main>
+    <!-- Animated background -->
+    <div class="bg-canvas">
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <div class="cloud c4"></div>
+      <div class="cloud c5"></div>
+      <div class="cloud c6"></div>
+      <div class="cloud c7"></div>
+    </div>
+ 
+    <!-- Hero card -->
+    <div class="content-area">
+      <div class="hero-card">
+        <div class="hero-image-placeholder">[ imagem ]</div>
+        <div class="hero-info">
+          <h2>INOVAÇÃO<br>TECNOLÓGICA</h2>
+          <div class="brand">Senai-SP</div>
+          <div class="instagram">Instagram: @senaitextilemoda</div>
+        </div>
+      </div>
+    </div>
+  </main>
+ 
+</div>
+ 
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 12l2-2 4 4L19 6l2 2-12 12z"/>
+  </svg>
+  Dashboard
+</div>
+ 
+</body>
+</html>
