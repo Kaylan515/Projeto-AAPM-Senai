@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - AAPM</title>
+    <title>Painel Administrativo - Visão Geral</title>
     <style>
         /* --- RESET E FONTES --- */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap');
@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* --- FUNDO ABSTRATO COMPLETO --- */
+        /* --- FUNDO CONFIGURADO --- */
         .background-canvas {
             position: fixed;
             top: 0;
@@ -36,7 +36,11 @@
             background-size: cover;
         }
 
-        /* --- BARRA SUPERIOR FIXA --- */
+        .wave-overlay {
+            display: none;
+        }
+
+        /* --- BARRA SUPERIOR REFEITA PARA A LOGO --- */
         header {
             background-color: #2c2c2c;
             height: 65px;
@@ -62,7 +66,7 @@
             object-fit: contain;
         }
 
-        /* --- AVATAR E DROPDOWN --- */
+        /* --- CONTAINER DO AVATAR COM MENU SUSPENSO --- */
         .avatar-container {
             position: absolute;
             right: 35px;
@@ -81,6 +85,7 @@
             border-radius: 50%;
         }
 
+        /* --- NOVO MENU DROPDOWN (APARECE NO HOVER) --- */
         .user-dropdown {
             position: absolute;
             top: 55px;
@@ -107,14 +112,58 @@
             transform: translateY(0);
         }
 
-        /* --- WRAPPER CENTRALIZADO --- */
+        .dropdown-header {
+            display: flex;
+            flex-direction: column;
+            color: #ffffff;
+            font-size: 13px;
+        }
+        
+        .dropdown-header span {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+        }
+
+        .user-dropdown hr {
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            margin: 4px 0;
+        }
+
+        .dropdown-item {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 10px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(211, 155, 33, 0.2);
+            color: #e4be6b;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
         .wrapper {
             flex: 1;
             padding: 25px 50px;
             display: flex;
             flex-direction: column;
             position: relative;
-            align-items: center;
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb span {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
         }
 
         .title-container {
@@ -140,15 +189,85 @@
             margin-left: 5px;
         }
 
-        /* --- CONTAINER ONDE ENTRARÃO AS TELAS --- */
-        #dynamicContent {
-            width: 100%;
+        /* --- CONTAINER DO DASHBOARD ADAPTADO AO PALCO CENTRAL --- */
+        .center-stage {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding-bottom: 40px;
         }
 
-        /* --- BOTÃO ORIGINAL SAIR NO FUNDO --- */
+        /* Novo container central que engloba as métricas e o gráfico */
+        .visao-geral-container {
+            width: 850px;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Linha superior com os 3 cards menores */
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .metric-card {
+            background-color: #080506;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .metric-card h4 {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .metric-card .value.gold {
+            color: #cfb065;
+        }
+
+        .metric-card .subtext {
+            font-size: 11px;
+        }
+
+        .subtext.positive { color: #4caf50; }
+        .subtext.negative { color: #ff4d6d; }
+
+        /* Bloco inferior do gráfico com o efeito de radial-gradient do modelo original */
+        .graphic-card {
+            flex: 1;
+            background: radial-gradient(circle at bottom right, #20070e 0%, #080506 80%);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        /* --- BOTÃO ORIGINAL SAIR (FECHADO) --- */
         .btn-sair-fundo {
             position: absolute;
             bottom: 70px;
@@ -159,70 +278,9 @@
             font-size: 16px;
         }
 
-        /* --- MENU GAVETA DESLIZANTE --- */
-        .sidebar-menu {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 215px;
-            height: calc(100vh - 65px);
-            background-color: #313131;
-            border-top-right-radius: 45px;
-            border-bottom-right-radius: 45px;
-            padding: 35px 20px 30px 22px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.7);
-            border-right: 3px solid #000000;
-            transform: translateX(-105%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 100;
-        }
-
-        .sidebar-menu.active {
-            transform: translateX(0);
-        }
-
-        .menu-title {
-            color: #8c7657;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 25px;
-        }
-
-        .menu-items-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            flex: 1;
-        }
-
-        .menu-item {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            line-height: 1.2;
-            transition: color 0.2s;
-        }
-
-        .menu-item:hover, .menu-item.active-page {
-            color: #e4be6b;
-        }
-
-        .menu-item.sair {
-            color: #000000;
-            font-size: 18px;
-            margin-top: auto;
-            padding-bottom: 15px;
-        }
-
-        /* --- ABA GATILHO "DASHBOARD" NO RODAPÉ --- */
+        /* --- ABA INFERIOR DO DASHBOARD (GATILHO) --- */
         .dashboard-trigger {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             width: 200px;
@@ -251,11 +309,78 @@
             font-weight: 700;
             font-size: 16px;
         }
+
+        /* --- MENU COMPLETO QUE SOBE ATÉ O TOPO --- */
+        .sidebar-menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 215px;
+            height: calc(100vh - 65px);
+            background-color: #313131;
+            border-top-right-radius: 45px;
+            border-bottom-right-radius: 45px;
+            padding: 35px 20px 30px 22px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.7);
+            border-right: 3px solid #000000;
+            transform: translateY(105%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .sidebar-menu.active {
+            transform: translateY(0);
+        }
+
+        .menu-title {
+            color: #8c7657;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+        }
+
+        .menu-items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .menu-item {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1.2;
+            transition: color 0.2s;
+        }
+
+        .menu-item:hover {
+            color: #e4be6b;
+        }
+
+        /* Destaca o item da página atual */
+        .menu-item.active-page {
+            color: #e4be6b;
+        }
+
+        .menu-item.sair {
+            color: #000000;
+            font-size: 18px;
+            margin-top: auto;
+            padding-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
     <div class="background-canvas"></div>
+    <div class="wave-overlay"></div>
 
     <header>
         <div class="logo-container">
@@ -263,6 +388,7 @@
         </div>
         <div class="avatar-container">
             <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80" alt="Profile">
+            
             <div class="user-dropdown">
                 <div class="dropdown-header">
                     <strong>Nome do Usuário</strong>
@@ -276,21 +402,56 @@
     </header>
 
     <div class="wrapper">
+        <div class="breadcrumb">Inicio &gt; <span>Visão Geral</span></div>
+        
         <div class="title-container">
             <h1 class="title-main"><span class="painel">PAINEL</span> <span class="adm">ADMINISTRATIVO</span></h1>
         </div>
 
-        <div id="dynamicContent"></div>
+        <!-- PALCO CENTRAL ADAPTADO COM AS SUAS CORES E GRADIENTES -->
+        <div class="center-stage">
+            <div class="visao-geral-container">
+                
+                <!-- Linha dos Cards -->
+                <div class="cards-row">
+                    <div class="metric-card">
+                        <h4>Faturamento Total</h4>
+                        <div class="value gold">R$ 14.250,00</div>
+                        <div class="subtext positive">+ 12% em relação ao mês anterior</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>Vendas Realizadas</h4>
+                        <div class="value">342</div>
+                        <div class="subtext positive">+ 5.3% esta semana</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>Novos Clientes</h4>
+                        <div class="value">89</div>
+                        <div class="subtext negative">- 2% em relação a ontem</div>
+                    </div>
+                </div>
+
+                <!-- Card de Gráfico com o fundo gradiente escuro/vinho idêntico ao original -->
+                <div class="graphic-card">
+                    [ Área reservada para Gráficos de Desempenho e Relatórios Analíticos ]
+                </div>
+
+            </div>
+        </div>
 
         <a href="#" class="btn-sair-fundo">Sair</a>
 
+        <!-- SEU MENU ORIGINAL -->
         <div class="sidebar-menu" id="sidebarMenu">
             <div class="menu-title">DASHBOARD</div>
             
             <div class="menu-items-container">
-                <a href="dashboard.html" class="menu-item" id="nav-inicio" onclick="navigateMenu(event)">Início</a>
-                <a href="visao_geral.html" class="menu-item" id="nav-visao" onclick="navigateMenu(event)">Visão Geral</a>
-                <a href="minha_loja.html" class="menu-item" id="nav-loja" onclick="navigateMenu(event)">Minha loja</a>
+                <!-- Se o seu arquivo original for dashboard.html, o link aponta para ele -->
+                <a href="dashboard.html" class="menu-item" onclick="navigateMenu(event)">Inicio</a>
+                <a href="visao_geral.html" class="menu-item active-page" onclick="navigateMenu(event)">Visão Geral</a>
+                <div class="menu-item" onclick="closeMenu()">Minha loja</div>
                 <div class="menu-item" onclick="closeMenu()">Produtos</div>
                 <div class="menu-item" onclick="closeMenu()">Receitas</div>
                 <div class="menu-item" onclick="closeMenu()">Fornecedores</div>
@@ -336,20 +497,6 @@
         document.addEventListener('click', (e) => {
             if (!sidebarMenu.contains(e.target) && e.target !== dashboardBtn) {
                 sidebarMenu.classList.remove('active');
-            }
-        });
-
-        // Script inteligente para marcar qual link do menu está ativo com base no nome do arquivo atual
-        document.addEventListener("DOMContentLoaded", () => {
-            const path = window.location.pathname;
-            const page = path.split("/").pop();
-            
-            if (page === "dashboard.html" || page === "") {
-                document.getElementById("nav-inicio").classList.add("active-page");
-            } else if (page === "visao_geral.html") {
-                document.getElementById("nav-visao").classList.add("active-page");
-            } else if (page === "minha_loja.html") {
-                document.getElementById("nav-loja").classList.add("active-page");
             }
         });
     </script>
