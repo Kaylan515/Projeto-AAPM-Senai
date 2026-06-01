@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - AAPM</title>
+    <title>Painel Administrativo - Minha Loja</title>
     <style>
         /* --- RESET E FONTES --- */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap');
@@ -146,15 +146,6 @@
             color: #e4be6b;
         }
 
-        .dropdown-item.logout {
-            color: #ff4d6d;
-        }
-
-        .dropdown-item.logout:hover {
-            background-color: rgba(255, 77, 109, 0.15);
-            color: #ff4d6d;
-        }
-
         /* --- CONTEÚDO PRINCIPAL --- */
         .wrapper {
             flex: 1;
@@ -198,74 +189,140 @@
             margin-left: 5px;
         }
 
-        /* --- CARD CENTRAL --- */
+        /* --- CONTAINER PRINCIPAL DA TELA MINHA LOJA --- */
         .center-stage {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-bottom: 50px;
+            padding-bottom: 40px;
         }
 
-        .main-card {
-            width: 820px;
-            height: 440px;
+        .minha-loja-container {
+            width: 850px;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Bloco Superior: Informações Básicas da Loja */
+        .info-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .info-card {
             background-color: #080506;
-            border-radius: 28px;
-            overflow: hidden;
-            display: flex;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.02);
+            color: #ffffff;
         }
 
-        .card-left {
-            flex: 1;
-            position: relative;
-            background-image: url("/assets/Site%20-%20AAPM%20(4).pdf%20(2).svg");
-            background-repeat: no-repeat;
-            background-size: 75% auto;
-            background-position: center center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .info-card h3 {
+            font-size: 16px;
+            color: #cfb065;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
 
-        .card-left::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(219, 36, 76, 0.3), transparent 70%);
+        .info-card p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
         }
 
-        .card-right {
-            flex: 1;
-            background: radial-gradient(circle at bottom right, #20070e 0%, #080506 80%);
-            padding: 45px 40px;
+        /* Card de Status da Loja (Online / Offline) */
+        .status-card {
+            background-color: #080506;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.02);
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            gap: 5px;
         }
 
-        .card-right h2 {
-            font-size: 30px;
-            color: #ffffff;
-            text-transform: uppercase;
-            font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 25px;
-        }
-
-        .card-right h3 {
-            font-size: 22px;
-            color: #cfb065;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .card-right p {
+        .status-badge {
+            background-color: rgba(76, 175, 80, 0.15);
+            color: #4caf50;
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
         }
+
+        .status-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 5px;
+        }
+
+        /* Bloco Inferior: Tabela de Pedidos com Gradiente Original do Projeto */
+        .store-details-card {
+            flex: 1;
+            background: radial-gradient(circle at bottom right, #20070e 0%, #080506 80%);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85);
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.02);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .store-details-card h4 {
+            color: #ffffff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Customização da Tabela de Pedidos */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .orders-table th {
+            font-size: 11px;
+            color: #cfb065;
+            text-transform: uppercase;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+
+        .orders-table td {
+            padding: 12px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-pill {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-pill.success { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
+        .status-pill.pending { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
 
         /* --- BOTÃO ORIGINAL SAIR (FECHADO) --- */
         .btn-sair-fundo {
@@ -364,8 +421,8 @@
             color: #e4be6b;
         }
 
-        .menu-item.highlight {
-            color: #dbb368;
+        .menu-item.active-page {
+            color: #e4be6b;
         }
 
         .menu-item.sair {
@@ -395,38 +452,89 @@
                 </div>
                 <hr>
                 <a href="#" class="dropdown-item">Visualizar Conta</a>
-                <a href="#" class="dropdown-item logout">Deslogar</a>
+                <a href="#" class="dropdown-item">Deslogar</a>
             </div>
         </div>
     </header>
 
     <div class="wrapper">
-        <div class="breadcrumb">Inicio &gt; <span>Painel administrativo</span></div>
+        <div class="breadcrumb">Inicio &gt; <span>Minha Loja</span></div>
         
         <div class="title-container">
             <h1 class="title-main"><span class="painel">PAINEL</span> <span class="adm">ADMINISTRATIVO</span></h1>
         </div>
 
+        <!-- PALCO CENTRAL DA MINHA LOJA -->
         <div class="center-stage">
-            <div class="main-card">
-                <div class="card-left"></div>
-                <div class="card-right">
-                    <h2>INOVAÇÃO<br>TECNOLÓGICA</h2>
-                    <h3>Senai-SP</h3>
-                    <p>Instagram: @senaitextilemoda</p>
+            <div class="minha-loja-container">
+                
+                <!-- Linha superior com Informações e Status -->
+                <div class="info-row">
+                    <div class="info-card">
+                        <h3>AAPM Store - Unidade Senai</h3>
+                        <p>Gerenciamento da loja interna, controle de vestuário e aviamentos tecnológicos da unidade industrial.</p>
+                    </div>
+                    
+                    <div class="status-card">
+                        <div class="status-badge">Sistema Online</div>
+                        <div class="status-text">Integração API Ativa</div>
+                    </div>
                 </div>
+
+                <!-- Card Inferior com Listagem de Pedidos Recentes (Efeito radial vinho) -->
+                <div class="store-details-card">
+                    <h4>Últimos Pedidos Recebidos</h4>
+                    
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Cliente / Aluno</th>
+                                <th>Produto</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1024</td>
+                                <td>Carlos Eduardo Silva</td>
+                                <td>Apostila Inovação Tecnológica</td>
+                                <td>R$ 45,00</td>
+                                <td><span class="status-pill success">Concluído</span></td>
+                            </tr>
+                            <tr>
+                                <td>#1023</td>
+                                <td>Mariana Costa Azevedo</td>
+                                <td>Camisa Polo Senai Preta</td>
+                                <td>R$ 89,90</td>
+                                <td><span class="status-pill success">Concluído</span></td>
+                            </tr>
+                            <tr>
+                                <td>#1022</td>
+                                <td>Lucas Andrade Santos</td>
+                                <td>Kit Componentes Eletrônicos</td>
+                                <td>R$ 120,00</td>
+                                <td><span class="status-pill pending">Pendente</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
 
         <a href="#" class="btn-sair-fundo">Sair</a>
 
+        <!-- SEU MENU GAVETA ORIGINAL -->
         <div class="sidebar-menu" id="sidebarMenu">
             <div class="menu-title">DASHBOARD</div>
             
             <div class="menu-items-container">
-                <div class="menu-item" onclick="closeMenu()">Inicio</div>
+                <!-- Certifique-se de que o nome do seu arquivo principal confere com o href abaixo -->
+                <a href="dashboard.html" class="menu-item" onclick="navigateMenu(event)">Dashboard Principal</a>
                 <a href="visao_geral.html" class="menu-item" onclick="navigateMenu(event)">Visão Geral</a>
-                <a href="minha_loja.html" class="menu-item" onclick="navigateMenu(event)">Minha loja</a>
+                <a href="minha_loja.html" class="menu-item active-page" onclick="navigateMenu(event)">Minha loja</a>
                 <div class="menu-item" onclick="closeMenu()">Produtos</div>
                 <div class="menu-item" onclick="closeMenu()">Receitas</div>
                 <div class="menu-item" onclick="closeMenu()">Fornecedores</div>
@@ -451,18 +559,29 @@
         const dashboardBtn = document.getElementById('dashboardBtn');
         const sidebarMenu = document.getElementById('sidebarMenu');
 
-        // Abre ou fecha o menu ao clicar no botão "Dashboard"
         dashboardBtn.addEventListener('click', (e) => {
             sidebarMenu.classList.toggle('active');
             e.stopPropagation();
         });
 
-        // Função para fechar ao clicar em um item
         function closeMenu() {
             sidebarMenu.classList.remove('active');
         }
 
-        
+        function navigateMenu(event) {
+            event.preventDefault();
+            const targetUrl = event.currentTarget.getAttribute('href');
+            sidebarMenu.classList.remove('active');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 300);
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!sidebarMenu.contains(e.target) && e.target !== dashboardBtn) {
+                sidebarMenu.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
