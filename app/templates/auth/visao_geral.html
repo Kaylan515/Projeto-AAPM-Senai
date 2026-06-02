@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* --- RESET E FONTES --- */
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght=700&family=Montserrat:wght=400;600;700&display=swap');
 
         * {
             margin: 0;
@@ -418,11 +418,9 @@
             <h1 class="title-main"><span class="painel">PAINEL</span> <span class="adm">ADMINISTRATIVO</span></h1>
         </div>
 
-        <!-- PALCO CENTRAL ADAPTADO COM AS SUAS CORES E GRADIENTES -->
         <div class="center-stage">
             <div class="visao-geral-container">
                 
-                <!-- Linha dos Cards -->
                 <div class="cards-row">
                     <div class="metric-card">
                         <h4>Faturamento Total</h4>
@@ -443,9 +441,10 @@
                     </div>
                 </div>
 
-                <!-- Card de Gráfico com o fundo gradiente escuro/vinho idêntico ao original -->
                 <div class="graphic-card">
-                    [ Área reservada para Gráficos de Desempenho e Relatórios Analíticos ]
+                    <div class="chart-inner-wrapper">
+                        <canvas id="vendasChart"></canvas>
+                    </div>
                 </div>
 
             </div>
@@ -453,12 +452,10 @@
 
         <a href="#" class="btn-sair-fundo">Sair</a>
 
-        <!-- SEU MENU ORIGINAL -->
         <div class="sidebar-menu" id="sidebarMenu">
             <div class="menu-title">DASHBOARD</div>
             
             <div class="menu-items-container">
-                <!-- Se o seu arquivo original for dashboard.html, o link aponta para ele -->
                 <a href="dashboard.html" class="menu-item" onclick="navigateMenu(event)">Inicio</a>
                 <a href="visao_geral.html" class="menu-item active-page" onclick="navigateMenu(event)">Visão Geral</a>
                 <a href="minha_loja.html" class="menu-item" onclick="navigateMenu(event)">Minha loja</a>
@@ -518,7 +515,7 @@
         const wineGradient = ctx.createLinearGradient(0, 0, 0, 200);
         wineGradient.addColorStop(0, 'rgba(165, 26, 56, 0.45)');
         wineGradient.addColorStop(1, 'rgba(8, 5, 6, 0.0)');
-//Para alterar a quntidade de 
+
         new Chart(ctx, {
             type: 'line',
             data: {
