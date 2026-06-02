@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - Minha Loja</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>Painel Administrativo - Produtos</title>
     <style>
         /* --- RESET E FONTES --- */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap');
@@ -21,7 +18,7 @@
         body {
             background-color: #0b0205;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -43,30 +40,29 @@
             display: none;
         }
 
-        /* --- BARRA SUPERIOR REFEITA PARA A LOGO --- */
+        /* --- BARRA SUPERIOR PARA A LOGO --- */
         header {
             background-color: #2c2c2c;
-            min-height: 90px;
-            height: auto;
+            height: 65px;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-            padding: 18px 30px;
+            padding: 0 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             border-bottom: 3px solid #a58d4c;
             z-index: 10;
         }
 
         .logo-container {
-            height: auto;
+            height: 170px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .logo-container img {
-            height: 56px;
+            height: 100%;
             object-fit: contain;
         }
 
@@ -89,10 +85,9 @@
             border-radius: 50%;
         }
 
-        /* --- NOVO MENU DROPDOWN (APARECE NO HOVER) --- */
         .user-dropdown {
             position: absolute;
-            top: calc(100% + 8px);
+            top: 55px;
             right: 0;
             width: 220px;
             background-color: #140409; 
@@ -193,7 +188,7 @@
             margin-left: 5px;
         }
 
-        /* --- CONTAINER PRINCIPAL DA TELA MINHA LOJA --- */
+        /* --- CONTAINER CENTRAL DE PRODUTOS --- */
         .center-stage {
             flex: 1;
             display: flex;
@@ -202,78 +197,9 @@
             padding-bottom: 40px;
         }
 
-        .minha-loja-container {
+        .products-container {
             width: 850px;
             height: 450px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Bloco Superior: Informações Básicas da Loja */
-        .info-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        .info-card {
-            background-color: #080506;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255,255,255,0.02);
-            color: #ffffff;
-        }
-
-        .info-card h3 {
-            font-size: 16px;
-            color: #cfb065;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .info-card p {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.4;
-        }
-
-        /* Card de Status da Loja (Online / Offline) */
-        .status-card {
-            background-color: #080506;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255,255,255,0.02);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .status-badge {
-            background-color: rgba(76, 175, 80, 0.15);
-            color: #4caf50;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(76, 175, 80, 0.3);
-        }
-
-        .status-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 5px;
-        }
-
-        /* Bloco Inferior: Tabela de Pedidos com Gradiente Original do Projeto */
-        .store-details-card {
-            flex: 1;
             background: radial-gradient(circle at bottom right, #20070e 0%, #080506 80%);
             border-radius: 24px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85);
@@ -283,50 +209,105 @@
             flex-direction: column;
         }
 
-        .store-details-card h4 {
+        /* Topo da área de produtos */
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .products-header h2 {
             color: #ffffff;
-            font-size: 14px;
+            font-size: 16px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 15px;
             font-weight: 600;
         }
 
-        /* Customização da Tabela de Pedidos */
-        .orders-table {
+        /* Botão Novo Produto Estilo Senai/Ouro */
+        .btn-add-product {
+            background-color: transparent;
+            border: 1px solid #cfb065;
+            color: #cfb065;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-product:hover {
+            background-color: #cfb065;
+            color: #080506;
+            box-shadow: 0 0 10px rgba(207, 176, 101, 0.4);
+        }
+
+        /* Tabela de Produtos */
+        .products-table-wrapper {
+            flex: 1;
+            overflow-y: auto; /* Scroll caso a lista passe do tamanho do card */
+        }
+
+        .products-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
         }
 
-        .orders-table th {
+        .products-table th {
             font-size: 11px;
             color: #cfb065;
             text-transform: uppercase;
-            padding-bottom: 10px;
+            padding: 12px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 600;
+            position: sticky;
+            top: 0;
+            background-color: #080506;
         }
 
-        .orders-table td {
-            padding: 12px 0;
+        .products-table td {
+            padding: 14px 10px;
             font-size: 13px;
             color: rgba(255, 255, 255, 0.85);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .orders-table tr:last-child td {
+        .products-table tr:last-child td {
             border-bottom: none;
         }
 
-        .status-pill {
+        /* Badges de Estoque */
+        .stock-pill {
             padding: 3px 8px;
             border-radius: 6px;
             font-size: 11px;
             font-weight: 600;
         }
-        .status-pill.success { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
-        .status-pill.pending { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
+        .stock-pill.in-stock { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
+        .stock-pill.low-stock { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
+        .stock-pill.out-of-stock { background: rgba(244, 67, 54, 0.2); color: #f44336; }
+
+        /* Botões de Ação (Editar / Excluir) */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            font-size: 12px;
+            transition: color 0.2s;
+        }
+
+        .btn-action.edit:hover { color: #cfb065; }
+        .btn-action.delete:hover { color: #f44336; }
 
         /* --- BOTÃO ORIGINAL SAIR (FECHADO) --- */
         .btn-sair-fundo {
@@ -374,10 +355,10 @@
         /* --- MENU COMPLETO QUE SOBE ATÉ O TOPO --- */
         .sidebar-menu {
             position: absolute;
-            top: 90px;
+            top: 0;
             left: 0;
             width: 215px;
-            height: calc(100vh - 90px);
+            height: calc(100vh - 65px);
             background-color: #313131;
             border-top-right-radius: 45px;
             border-bottom-right-radius: 45px;
@@ -462,72 +443,84 @@
     </header>
 
     <div class="wrapper">
-        <div class="breadcrumb">Inicio &gt; <span>Minha Loja</span></div>
+        <div class="breadcrumb">Inicio &gt; <span>Produtos</span></div>
         
         <div class="title-container">
             <h1 class="title-main"><span class="painel">PAINEL</span> <span class="adm">ADMINISTRATIVO</span></h1>
         </div>
 
-        <!-- PALCO CENTRAL DA MINHA LOJA -->
         <div class="center-stage">
-            <div class="minha-loja-container">
+            <div class="products-container">
                 
-                <!-- Linha superior com Informações e Status -->
-                <div class="info-row">
-                    <div class="info-card">
-                        <h3>AAPM Store - Unidade Senai</h3>
-                        <p>Gerenciamento da loja interna, controle de vestuário e aviamentos tecnológicos da unidade industrial.</p>
-                    </div>
-                    
-                    <div class="status-card">
-                        <div class="status-badge">Sistema Online</div>
-                        <div class="status-text">Integração API Ativa</div>
-                    </div>
+                <div class="products-header">
+                    <h2>Controle de Estoque</h2>
+                    <button class="btn-add-product">+ Novo Produto</button>
                 </div>
 
-                <!-- Card Inferior com Listagem de Pedidos Recentes (Efeito radial vinho) -->
-                <div class="store-details-card">
-                    <h4>Últimos Pedidos Recebidos</h4>
-                    
-                    <table class="orders-table">
+                <div class="products-table-wrapper">
+                    <table class="products-table">
                         <thead>
                             <tr>
-                                <th>Pedido</th>
-                                <th>Cliente / Aluno</th>
-                                <th>Produto</th>
-                                <th>Total</th>
+                                <th>Cód</th>
+                                <th>Nome do Produto</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Qtd</th>
                                 <th>Status</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>#1024</td>
-                                <td>Carlos Eduardo Silva</td>
-                                <td>Apostila Inovação Tecnológica</td>
-                                <td>R$ 45,00</td>
-                                <td><span class="status-pill success">Concluído</span></td>
-                            </tr>
-                            <tr>
-                                <td>#1023</td>
-                                <td>Mariana Costa Azevedo</td>
-                                <td>Camisa Polo Senai Preta</td>
+                                <td>#001</td>
+                                <td>Camisa Polo Senai Preta (M)</td>
+                                <td>Vestuário</td>
                                 <td>R$ 89,90</td>
-                                <td><span class="status-pill success">Concluído</span></td>
+                                <td>45</td>
+                                <td><span class="stock-pill in-stock">Em Estoque</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-action edit">Editar</button>
+                                    <button class="btn-action delete">Excluir</button>
+                                </td>
                             </tr>
                             <tr>
-                                <td>#1022</td>
-                                <td>Lucas Andrade Santos</td>
+                                <td>#002</td>
+                                <td>Apostila Inovação Tecnológica</td>
+                                <td>Material Didático</td>
+                                <td>R$ 45,00</td>
+                                <td>12</td>
+                                <td><span class="stock-pill low-stock">Baixo Estoque</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-action edit">Editar</button>
+                                    <button class="btn-action delete">Excluir</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#003</td>
                                 <td>Kit Componentes Eletrônicos</td>
+                                <td>Tecnologia</td>
                                 <td>R$ 120,00</td>
-                                <td><span class="status-pill pending">Pendente</span></td>
+                                <td>0</td>
+                                <td><span class="stock-pill out-of-stock">Esgotado</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-action edit">Editar</button>
+                                    <button class="btn-action delete">Excluir</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#004</td>
+                                <td>Oculos de Proteção EPI</td>
+                                <td>Segurança</td>
+                                <td>R$ 25,50</td>
+                                <td>80</td>
+                                <td><span class="stock-pill in-stock">Em Estoque</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-action edit">Editar</button>
+                                    <button class="btn-action delete">Excluir</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-
-                    <div style="position: relative; height: 160px; margin-top: 25px;">
-                        <canvas id="graficoVendas"></canvas>
-                    </div>
-
                 </div>
 
             </div>
@@ -535,16 +528,14 @@
 
         <a href="#" class="btn-sair-fundo">Sair</a>
 
-        <!-- SEU MENU GAVETA ORIGINAL -->
         <div class="sidebar-menu" id="sidebarMenu">
             <div class="menu-title">DASHBOARD</div>
             
             <div class="menu-items-container">
-                <!-- Certifique-se de que o nome do seu arquivo principal confere com o href abaixo -->
                 <a href="dashboard.html" class="menu-item" onclick="navigateMenu(event)">Dashboard Principal</a>
                 <a href="visao_geral.html" class="menu-item" onclick="navigateMenu(event)">Visão Geral</a>
-                <a href="minha_loja.html" class="menu-item active-page" onclick="navigateMenu(event)">Minha loja</a>
-                <div class="menu-item" onclick="closeMenu()">Produtos</div>
+                <a href="minha_loja.html" class="menu-item" onclick="navigateMenu(event)">Minha loja</a>
+                <a href="produtos.html" class="menu-item active-page" onclick="navigateMenu(event)">Produtos</a>
                 <div class="menu-item" onclick="closeMenu()">Receitas</div>
                 <div class="menu-item" onclick="closeMenu()">Fornecedores</div>
                 <div class="menu-item" onclick="closeMenu()">Vendas</div>
@@ -589,37 +580,6 @@
         document.addEventListener('click', (e) => {
             if (!sidebarMenu.contains(e.target) && e.target !== dashboardBtn) {
                 sidebarMenu.classList.remove('active');
-            }
-        });
-
-        // 3️⃣ CÓDIGO JAVASCRIPT DO CHART.JS ADICIONADO NO FINAL DO SCRIPT
-        const ctx = document.getElementById('graficoVendas').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
-                datasets: [{
-                    label: 'Vendas da Semana (R$)',
-                    data: [45, 134, 120, 290, 420],
-                    borderColor: '#cfb065',
-                    backgroundColor: 'rgba(207, 176, 101, 0.1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: { color: '#ffffff', font: { family: 'Montserrat' } }
-                    }
-                },
-                scales: {
-                    x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { display: false } },
-                    y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
-                }
             }
         });
     </script>
