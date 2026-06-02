@@ -71,3 +71,9 @@ def read_dashboard(request: Request):
 def read_client_view(request: Request):
     context = {"request": request}
     return templates.TemplateResponse(request=request, name="auth/page2--.html", context=context)
+
+# 5. Página de Produtos
+@app.get("/produtos", response_class=HTMLResponse)
+def read_produtos(request: Request):
+    context = {"request": request}
+    return templates.TemplateResponse(request=request, name="auth/produtos.html", context=context)
