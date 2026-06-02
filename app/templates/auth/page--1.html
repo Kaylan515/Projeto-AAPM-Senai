@@ -26,7 +26,7 @@
       width: 100%; height: 100%;
       background: var(--charcoal);
       font-family: 'Josefin Sans', sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
     }
  
     /* ── HERO ── */
@@ -95,26 +95,25 @@
       flex: 1;
       padding: 0 56px 40px;
     }
- 
-    /* LOGO */
-    .logo {
-      position: absolute; top: 70px; left: 40px;
-      z-index: 20;
-      width: 130px; height: 130px;
-      animation: fadeIn 1s 0.3s ease both;
-    }
-    .logo img {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 4px 24px rgba(160,82,45,0.5));
-    }
- 
-    /* HEADLINE */
-    .headline {
-      margin-top: 60px;
-      max-width: 680px;
-      animation: fadeUp 0.9s 0.5s ease both;
-    }
+ /* ── LOGO 100% INDEPENDENTE E FIXA ── */
+  .logo {
+    position: fixed; /* ISSO DOUTORINA A LOGO: ela ignora o flexbox e foca na tela */
+    top: 10px;       /* Distância do topo da tela */
+    left: 600px;      /* Distância da esquerda da tela */
+    z-index: 999;    /* Fica por cima de absolutamente tudo */
+    width: 300px; 
+    height: 90px;
+    pointer-events: none; 
+    animation: fadeIn 1s 0.3s ease both;
+  }
+
+  .logo img {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 24px rgba(160,82,45,0.5));
+  }
+
     .headline h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2rem, 4.2vw, 3.6rem);

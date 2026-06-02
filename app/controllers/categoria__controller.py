@@ -12,6 +12,7 @@ router = APIRouter(prefix="/auth", tags=["Autenticação"])
 templates = Jinja2Templates(directory="app/templates")
 
 
+
 # Rota de cadastro
 @router.get("/cadastro")
 def tela_cadastro(request: Request):
