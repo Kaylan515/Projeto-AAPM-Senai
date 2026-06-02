@@ -41,7 +41,7 @@ def fazer_login(
     if not usuario.ativo:
         return templates.TemplateResponse(
             request,
-            "index.html",
+            "auth/index.html",
             {"request": request, "erro": "Usuário inativo."}
         )
 

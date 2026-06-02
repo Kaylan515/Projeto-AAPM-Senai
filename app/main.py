@@ -7,6 +7,7 @@ from app.controllers import admin_controller
 from app.controllers import movimentacao_controller
 from app.controllers import produto_controller
 from app.controllers import categoria__controller
+from app.database import init_db
 import os
 
 app = FastAPI()
@@ -20,6 +21,9 @@ app.include_router(categoria__controller.router)
 
 # Descobre o caminho real da pasta onde este arquivo main.py está (pasta /app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Cria tabelas automaticamente em ambiente de desenvolvimento, se necessário.
+init_db()
 
 # 🛠️ CORREÇÃO DEFINITIVA DO STATIC: Aponta para a pasta static real (onde tem CSS e assets)
 static_dir = os.path.join(BASE_DIR, "static")

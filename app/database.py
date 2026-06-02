@@ -16,6 +16,13 @@ Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 class Base(DeclarativeBase):
     pass 
 
+# Cria as tabelas quando todos os modelos estiverem carregados.
+def init_db():
+    # Importa os modelos para garantir que a metadata esteja completa
+    import app.models  # noqa: F401
+    Base.metadata.create_all(bind=engine)
+
+
 def get_db():
     db = Session()
     try:
