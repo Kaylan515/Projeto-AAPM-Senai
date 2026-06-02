@@ -9,7 +9,7 @@ class Produto(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     nome = Column(String(200), nullable=False, index=True)
     estoque_atual = Column(Integer, nullable=False, default=0)
-    preco = Column(Integer, nullable=False, default=0.0)
+    preco = Column(Integer, nullable=False)           # ❌ Ainda é Integer!
     ativo = Column(Boolean, default=True)
 
     imagem_path = Column(String(255), nullable=True)
@@ -22,4 +22,4 @@ class Produto(Base):
         if self.imagem_path:
             return f"/static/{self.imagem_path}"
         else:
-            return "/static/imagens/default.png" 
+            return "/static/imagens/default.png"

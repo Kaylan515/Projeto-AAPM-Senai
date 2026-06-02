@@ -15,7 +15,8 @@ class Movimentacao(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     tipo = Column(Enum(Tipo_de_movimentacao), nullable=False)
     quantidade = Column(Integer, nullable=False)
-    preco_unitario = Column(Integer, nullable=False, default=0.0)
+    preco_unitario = Column(Integer, nullable=False)  # ❌ Deveria ser Numeric ou Float
+    preco = Column(Integer, nullable=False)           # ❌ Deveria ser Numeric ou Float
     observacao = Column(String(255), nullable=True)
     criando_em = Column(DateTime, server_default=func.now())
 
