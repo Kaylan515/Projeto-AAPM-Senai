@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo - Minha Loja</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         /* --- RESET E FONTES --- */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap');
@@ -519,6 +522,11 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <div style="position: relative; height: 160px; margin-top: 25px;">
+                        <canvas id="graficoVendas"></canvas>
+                    </div>
+
                 </div>
 
             </div>
@@ -580,6 +588,37 @@
         document.addEventListener('click', (e) => {
             if (!sidebarMenu.contains(e.target) && e.target !== dashboardBtn) {
                 sidebarMenu.classList.remove('active');
+            }
+        });
+
+        // 3️⃣ CÓDIGO JAVASCRIPT DO CHART.JS ADICIONADO NO FINAL DO SCRIPT
+        const ctx = document.getElementById('graficoVendas').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
+                datasets: [{
+                    label: 'Vendas da Semana (R$)',
+                    data: [45, 134, 120, 290, 420],
+                    borderColor: '#cfb065',
+                    backgroundColor: 'rgba(207, 176, 101, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff', font: { family: 'Montserrat' } }
+                    }
+                },
+                scales: {
+                    x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { display: false } },
+                    y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                }
             }
         });
     </script>
