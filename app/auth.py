@@ -1,8 +1,7 @@
 # 1. Hash e verificação de senhas com bcrypt
 # 2. Geração so tokens JWT
 # 3. Leitura e validação do token vindo do cookie
-
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import Request, HTTPException, status

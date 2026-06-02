@@ -19,19 +19,13 @@ app.include_router(produto_controller.router)
 app.include_router(categoria__controller.router)
 
 # Descobre o caminho real da pasta onde este arquivo main.py está (pasta /app)
-# 1. Configura a pasta dos arquivos estáticos (CSS e JS)
-# Descobre o caminho real da pasta onde este arquivo main.py está (pasta /app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 🛠️ CORREÇÃO DA LINHA DO STATIC: Apontando direto para onde sua pasta CSS está!
-static_dir = os.path.join(BASE_DIR, "templates")
+# 🛠️ CORREÇÃO DEFINITIVA DO STATIC: Aponta para a pasta static real (onde tem CSS e assets)
+static_dir = os.path.join(BASE_DIR, "static")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-# 2. Configura a pasta de assets (Imagens, Logos e Fundo) fora da pasta app
-assets_dir = os.path.join(os.path.dirname(BASE_DIR), "assets")
-app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
-
-# 3. Configura o Jinja2 para ler os arquivos HTML corretamente
+# Configura o Jinja2 para ler os arquivos HTML corretamente da pasta templates
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 
@@ -40,29 +34,36 @@ templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 # --- ROTAS DA APLICAÇÃO (USANDO JINJA2 CORRETAMENTE) ---
 
-# Página Inicial (index.html)
+# --- ROTAS DA APLICAÇÃO (USANDO JINJA2 CORRETAMENTE) ---
+
+# 1. Página Inicial Pública (Agora usa o arquivo 'page--1.html')
+# Quando o cliente acessar "http://localhost:8000/", ele vai cair aqui
+# --- ROTAS DA APLICAÇÃO (USANDO JINJA2 COM A PASTA AUTH CORRETA) ---
+
+# 1. Página Inicial Pública (Sua vitrine/apresentação)
 @app.get("/", response_class=HTMLResponse)
 def read_index(request: Request):
     context = {"request": request}
-    return templates.TemplateResponse(request=request, name="index.html", context=context)
+    # Como o arquivo está dentro de templates/auth/, passamos o caminho relativo
+    return templates.TemplateResponse(request=request, name="auth/page--1.html", context=context)
 
 
-# Página de Login (login.html)
+# 2. Página de Login Administrativo (Onde o admin digita e-mail/senha)
 @app.get("/login", response_class=HTMLResponse)
 def read_login(request: Request):
     context = {"request": request}
-    return templates.TemplateResponse(request=request, name="auth/login.html", context=context)
+    return templates.TemplateResponse(request=request, name="auth/index.html", context=context)
 
 
-# Página de Cadastro (cadastro.html)
-@app.get("/cadastro", response_class=HTMLResponse)
-def read_cadastro(request: Request):
-    context = {"request": request}
-    return templates.TemplateResponse(request=request, name="auth/cadastro.html", context=context)
-
-
-# Painel Administrativo (dashboard.html)
+# 3. Painel Administrativo (Controle interno de estoque)
 @app.get("/dashboard", response_class=HTMLResponse)
 def read_dashboard(request: Request):
     context = {"request": request}
-    return templates.TemplateResponse(request=request, name="dashboard.html", context=context)
+    return templates.TemplateResponse(request=request, name="auth/dashboard.html", context=context)
+
+
+# 4. Página de Visualização dos Clientes (Catálogo/Stock de consulta)
+@app.get("/visualizacao", response_class=HTMLResponse)
+def read_client_view(request: Request):
+    context = {"request": request}
+    return templates.TemplateResponse(request=request, name="auth/page2--.html", context=context)

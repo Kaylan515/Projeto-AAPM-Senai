@@ -164,30 +164,33 @@
         <h2>CONEXÃO</h2>
         <p>Painel Restrito</p>
 
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="usuario">E-mail do Administrador</label>
-                <input type="email" id="usuario" value="" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="senha">Senha de Acesso</label>
-                <input type="password" id="senha" placeholder="••••••••" required>
-            </div>
+    <form id="loginForm" action="/auth/login" method="POST">
+    <div class="form-group">
+        <label for="usuario">E-mail do Administrador</label>
+        <input type="email" id="usuario" name="username" placeholder="seu-email@aapm.com" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="senha">Senha de Acesso</label>
+        <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+    </div>
 
-            <button type="submit" class="btn-entrar">Entrar no Sistema</button>
-        </form>
+    {% if erro %}
+    <div style="color: #ff4a4a; font-size: 13px; margin-bottom: 15px; font-weight: 600;">
+        {{ erro }}
+    </div>
+    {% endif %}
+
+    <button type="submit" class="btn-entrar">Entrar no Sistema</button>
+</form>
 
         <div class="footer-nota">Acesso exclusivo para administradores autorizados.</div>
     </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Redireciona o Administrador para a página do painel
-            // Certifique-se de que o arquivo do seu painel se chama exatamente "painel.html"
-            window.location.href = "painel.html"; 
-        });
+    
+       <script>
+    
     </script>
+
 </body>
 </html>

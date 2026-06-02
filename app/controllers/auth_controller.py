@@ -7,86 +7,45 @@ from app.database import get_db
 from app.models.usuario import Usuario
 from app.auth import hash_senha, verificar_senha, criar_token
 
+# O prefixo /auth faz todas as rotas começarem com /auth/...
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
 templates = Jinja2Templates(directory="app/templates")
 
-#Rota de cadastro
-@router.get("/cadastro")
-def tela_cadastro(request: Request):
-    return templates.TemplateResponse(
-        request,
-        "auth/cadastro.html",
-        {"request": request})
+# Removemos as rotas GET /cadastro e GET /login daqui, 
+# pois elas já estão sendo gerenciadas diretamente pelo seu main.py!
 
-@router.get("/login")
-def tela_login(request: Request):
-    return templates.TemplateResponse(
-        request,
-        "auth/login.html",
-        {"request": request})
 
-# Criar o usuario no banco
-@router.post("/cadastro")
-def cadastrar_user(
-    request: Request,
-    nome: str = Form(...),
-    email: str = Form(...),
-    senha: str = Form(...),
-    db: Session = Depends(get_db),
-):
-    #Verificar se o email está cadatrado
-    user_existente = db.query(Usuario).filter_by(email=email).first()
-    if user_existente:
-        # Retorna o formulário com mensagem de erro
-        return templates.TemplateResponse(
-            request,
-            "auth/cadastro.html",
-            {"request": request, "erro": "Este e-mail já está cadastrado."}
-        )
-    
-    #Criar o novo usuário com senha hash
-    novo_usuario = Usuario(
-        nome=nome,
-        email=email,
-        senha_hash=hash_senha(senha), #Nunca salva a senha pura no db
-        )
-    
-    db.add(novo_usuario)
-    db.commit()
-
-    #Redirecionar para login após cadastro
-    return RedirectResponse(url="/auth/login?cadastro=ok", status_code=302)
-
-#Rota de login
+# Rota POST de login (Onde o formulário vai disparar os dados)
 @router.post("/login")
 def fazer_login(
     request: Request,
-    email: str = Form(...),
-    senha: str = Form(...),
+    username: str = Form(...), # O FastAPI exige 'username' vindo do formulário HTML
+    senha: str = Form(...),    # O campo password do HTML vira 'senha' aqui
     db: Session = Depends(get_db),
 ):
-    # Buscar o usuário no banco pelo email
-    usuario = db.query(Usuario).filter_by(email=email).first()
+    # Buscar o usuário no banco pelo e-mail informado no campo de username
+    usuario = db.query(Usuario).filter_by(email=username).first()
 
     # Verificar a senha com bcrypt
-    senha_correta = ( usuario is not None and verificar_senha(senha, usuario.senha_hash))
+    senha_correta = (usuario is not None and verificar_senha(senha, usuario.senha_hash))
 
+   # Dentro do método fazer_login no seu auth_controller.py
     if not senha_correta:
         return templates.TemplateResponse(
-            request,
-            "auth/login.html",
-            {"request": request, "erro": "Email ou senha incorretos."}
-        )
+        request,
+        "auth/index.html",  # Adicionado o "auth/" aqui também!
+        {"request": request, "erro": "E-mail ou senha incorretos."}
+    )
     
     if not usuario.ativo:
         return templates.TemplateResponse(
             request,
-            "auth/login.html",
+            "index.html",
             {"request": request, "erro": "Usuário inativo."}
         )
 
-    # Gera o token JWT
+    # Gera os dados do token JWT
     token_data = {
         "sub": usuario.email,
         "nome": usuario.nome,
@@ -96,25 +55,25 @@ def fazer_login(
 
     token = criar_token(token_data)
 
-    # Salvar o token em cookie Httponly
-    response = RedirectResponse(url="/", status_code=302)
+    # Redirecionar com sucesso direto para o Painel Administrativo (/dashboard)
+    response = RedirectResponse(url="/dashboard", status_code=302)
 
+    # Salvar o token em cookie seguro Httponly no navegador
     response.set_cookie(
         key="access_token",
         value=token,
         httponly=True,
-        max_age= 3600, # Expira em 1 hora (Em segundos)
+        max_age=3600, # Expira em 1 hora
         samesite="lax"
     )
 
     return response
 
-    # Redirecionar para a página principal
 
-#Rota de sair
-
+# Rota de Sair (Logout)
 @router.get("/logout")
 def sair():
-    response = RedirectResponse(url="/auth/login", status_code=302)
+    # Quando deslogar, chuta o admin de volta para a rota /login do main.py
+    response = RedirectResponse(url="/login", status_code=302)
     response.delete_cookie("access_token")
     return response
