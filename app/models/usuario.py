@@ -9,7 +9,7 @@ class Usuario(Base):
     email = Column(String(100), nullable=False, index=True, unique=True)
     senha_hash = Column(String(255), nullable=False)
 
-    role = Column(String(20), nullable=False, default="usuario")
+    role = Column(String(20), nullable=False, default="funcionario")
 
     ativo = Column(Boolean, default=True)
 
